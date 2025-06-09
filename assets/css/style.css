@@ -1,0 +1,23 @@
+body {
+
+    background-color: #d71724;
+
+    #ticket-title {
+        
+        display: none;
+
+    }
+
+    #ticket-table {
+
+        display: none;
+
+        th, td {
+
+            background-color: #006a6a !important;
+
+        }
+
+    }
+
+}

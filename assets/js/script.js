@@ -1,4 +1,4 @@
-// #region Constant declaration section
+// #region Constants declaration section
 
     // #region Ticket calculation
 
@@ -43,6 +43,12 @@
 
         //#region Output elements
 
+            // Get ticket title DOM element
+            const ticketTitleElement = document.getElementById('ticket-title');
+
+            // Get ticket table DOM element
+            const ticketTableElement = document.getElementById('ticket-table');
+
             // Get passenger name output DOM element
             const passengerNameOutputElement = document.getElementById('passenger-name-output');
 
@@ -55,17 +61,20 @@
             // Get kilometers number output DOM element
             const kilometersNumberOutputElement = document.getElementById('kilometers-number-output');
 
+            // Get base ticket price DOM element
+            const baseTicketPriceElement = document.getElementById('base-ticket-price');
+
             // Get applied discounts DOM element
             const appliedDiscountsElement = document.getElementById('applied-discounts');
 
-            // Get ticket price DOM element
-            const ticketPriceElement = document.getElementById('ticket-price');
+            // Get final ticket price DOM element
+            const finalTicketPriceElement = document.getElementById('final-ticket-price');
 
         //#endregion Output elements
 
     // #endregion DOM elements
 
-// #endregion Constant declaration section
+// #endregion Constants declaration section
 
 // #region Script logic
 
@@ -90,29 +99,32 @@
             const kilometersNumber = kilometersNumberInputElement.value;
 
             // Set default discount to none
-            let appliedDiscounts = 'nessuno';
+            let appliedDiscounts = 'Nessuno';
 
-            // Calculate total travel price
-            let totalTravelPrice = kilometersNumber * KM_PRICE;
+            // Calculate base ticket price
+            let baseTicketPrice = kilometersNumber * KM_PRICE;
+
+            // Initialize final ticket price
+            let finalTicketPrice = baseTicketPrice;
 
             // IF passenger age is underage
             if ( passengerAge < UNDERAGE_AGE ) {
 
                 // Set applied discount to underage promotion
-                appliedDiscounts = `minorenne (${UNDERAGE_DISCOUNT_PERCENTAGE} %)`;
+                appliedDiscounts = `Minorenne (${UNDERAGE_DISCOUNT_PERCENTAGE} %)`;
 
                 // Apply underage discount
-                totalTravelPrice = totalTravelPrice - ( (totalTravelPrice / 100 ) * UNDERAGE_DISCOUNT_PERCENTAGE );
+                finalTicketPrice = baseTicketPrice - ( (baseTicketPrice / 100 ) * UNDERAGE_DISCOUNT_PERCENTAGE );
 
             }
             // ELSE IF passenger age is senior 
             else if ( passengerAge > SENIOR_AGE ) {
 
                 // Set applied discount to senior promotion
-                appliedDiscounts = `senior (${SENIOR_DISCOUNT_PERCENTAGE} %)`;
+                appliedDiscounts = `Senior (${SENIOR_DISCOUNT_PERCENTAGE} %)`;
 
                 // Apply senior discount
-                totalTravelPrice = totalTravelPrice - ( (totalTravelPrice / 100 ) * SENIOR_DISCOUNT_PERCENTAGE );
+                finalTicketPrice = baseTicketPrice - ( (baseTicketPrice / 100 ) * SENIOR_DISCOUNT_PERCENTAGE );
 
             }
 
@@ -120,33 +132,48 @@
 
         // #region Ticket price formatting
 
-            // Price rounding
-            totalTravelPrice = totalTravelPrice.toFixed(2);
+            // Base ticket price rounding
+            baseTicketPrice = baseTicketPrice.toFixed(2);
 
-            // Price formatting for italian comma price format
-            totalTravelPrice = totalTravelPrice.toString().replace('.', ',');
+            // Final ticket price rounding
+            finalTicketPrice = finalTicketPrice.toFixed(2);
+
+            // Base ticket price formatting for italian comma format
+            baseTicketPrice = baseTicketPrice.replace('.', ',');
+
+            // Final ticket price formatting for italian comma format
+            finalTicketPrice = finalTicketPrice.replace('.', ',');
 
         // #endregion Ticket price formatting
 
         // #region Output section
 
             // Passenger name output
-            passengerNameOutputElement.innerText = `Nome: ${passengerName}`;
+            passengerNameOutputElement.innerText = passengerName;
 
             // Passenger surname output
-            passengerSurnameOutputElement.innerText = `Cognome: ${passengerSurname}`;
+            passengerSurnameOutputElement.innerText = passengerSurname;
 
             // Passenger age output
-            passengerAgeOutputElement.innerText = `Età passeggero: ${passengerAge} anni`;
+            passengerAgeOutputElement.innerText = `${passengerAge} anni`;
 
             // Kilometers number output
-            kilometersNumberOutputElement.innerText = `Numero di km: ${kilometersNumber} km`;
+            kilometersNumberOutputElement.innerText = `${kilometersNumber} km`;
+
+            // Base price output
+            baseTicketPriceElement.innerText = `${baseTicketPrice} €`;
 
             // Applied discounts output
-            appliedDiscountsElement.innerText = 'Sconti applicati: ' + appliedDiscounts;
+            appliedDiscountsElement.innerText = appliedDiscounts;
 
             // Price output
-            ticketPriceElement.innerText = 'Prezzo totale del viaggio: ' + totalTravelPrice + " €";
+            finalTicketPriceElement.innerText = `${finalTicketPrice} €`;
+
+            // Show ticket title
+            ticketTitleElement.style.display = 'block';
+
+            // Show ticket table
+            ticketTableElement.style.display = 'table';
 
         // #endregion Output section
 
